@@ -11,9 +11,13 @@ class AnalisadorSintatico
     private $count = 0;
 
     public function validate()
-    {
-        $this->E();
-        var_dump($this->RETURN);    
+    {   
+        var_dump($this->TOKEN_LIST);
+        // foreach ($this->TOKEN_LIST as $token){
+        //     $this->E();
+        // }
+        // $this->E();
+        // var_dump($this->RETURN);    
 
         if (in_array(false, $this->RETURN)) echo 'Inválido';
         else echo 'Válido';

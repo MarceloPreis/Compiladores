@@ -1,0 +1,8 @@
+<?
+
+namespace AalisadorSintatico;
+
+class AnalisadorSintatico {
+    
+    
+}

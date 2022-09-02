@@ -2,10 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>At04. Analisador Descendente Recursivo para uma linguagem</title>
 </head>
 
 <?php
@@ -13,9 +10,9 @@
 use lexico\AnalisadorLexico;
 use sistatico\AnalisadorSintatico;
 
-include_once("AnalisadorLexico.php");
-include_once("AnalisadorSintatico.php");
-include_once("Token.php");
+include_once("classes\AnalisadorLexico.php");
+include_once("classes\AnalisadorSintatico.php");
+include_once("classes\Token.php");
 if (isset($_GET['entrada'])) {
 
 
@@ -41,7 +38,6 @@ if (isset($_GET['entrada'])) {
     $analisadorLexico->FINAIS = [
         'q2' => 'INT',
         'q0' => 'MULT',
-        'q4' => 'TESTE'
     ];
     $analisadorLexico->tabelaDeTransicao($estados, $padrao, $exc, $adicionais);
     $analisadorLexico->indentificarToken($_GET['entrada'], 'q0');
