@@ -3,7 +3,7 @@ $alfabet = array_merge(range('a', 'z'), range('A', 'Z'), range(0, 9));
 
 $path = 'C:\Users\marce\OneDrive\Documentos\BCC\2022\2 Semestre\att.xml';
 $xml = file_get_contents($path);
-$new = simplexml_load_string($xml);
+$new = (array)simplexml_load_string($xml);
 $con = json_encode($new);
 $newArr = json_decode($con, true);
 $transictionsMtrix = [];
