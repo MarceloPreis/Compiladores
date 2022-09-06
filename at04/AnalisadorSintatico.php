@@ -20,7 +20,7 @@ class AnalisadorSintatico
 
     public function term($token)
     {
-        $ret = $this->lexico->tokens[$this->contador]->token = $token;
+        $ret = $this->lexico->tokens[$this->contador]->token == $token;
         $this->contador++;
         return $ret;
     }
