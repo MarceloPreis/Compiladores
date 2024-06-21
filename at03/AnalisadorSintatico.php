@@ -73,7 +73,7 @@ class AnalisadorSintatico
             if ($this->T2()) {
                 return true;
             } else {
-                $this->coutn = $anterior;
+                $this->count = $anterior;
                 return $this->T3();
             }
         }

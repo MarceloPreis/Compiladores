@@ -9,6 +9,15 @@ class AnalisadorSintaticoPreditivo
 {
 
     public array $m = [
+        '$' => [
+            'FUNCTION' => ['-FUN-'],
+            'ID' => ['-LISTA_VAR-'],
+            'COST' => ['-LISTA_VAR-'],
+            'PRINT' => ['-LISTA_BLOCO-'],
+            'IF' => ['-LISTA_BLOCO-'],
+            'WHILE' => ['-LISTA_BLOCO-'],
+        ], 
+
         '-FUN-' => [
             'FUNCTION' => ['FUNCTION', 'AP', '-LISTA_VAR-', 'FP', 'AB', '-BLOCO-', 'FB']
         ],
@@ -29,7 +38,8 @@ class AnalisadorSintaticoPreditivo
             'PRINT' => ['-BLOCO-', '-LISTA_BLOCO-'],
             'IF' => ['-BLOCO-', '-LISTA_BLOCO-'],
             'WHILE' => ['-BLOCO-', '-LISTA_BLOCO-'],
-            'FB' => []
+            'FB' => [],
+            'FP' => []
         ],
 
         '-BLOCO-' => [
@@ -42,7 +52,7 @@ class AnalisadorSintaticoPreditivo
         '-PALAVRA_RESERVADA-' => [
             'IF' => ['IF', 'AP', '-COMP-', 'FP', 'AB', '-LISTA_BLOCO-', 'FB'],
             'WHILE' => ['WHILE', 'AP', '-COMP-', 'FP', 'AB', '-LISTA_BLOCO-', 'FB'],
-            'PRINT' => ['PRINT', '-VAR-']
+            'PRINT' => ['PRINT', 'AP', '-VAR-', 'FP']
 
         ],
 
@@ -83,25 +93,30 @@ class AnalisadorSintaticoPreditivo
 
     public function validadte()
     {
-        print_r($this->tokens);
-        $this->pilha[] = '-FUN-';
         $control = 0;
         $token = $this->tokens[0];
+
         do {
-            // var_dump($this->pilha);
-            echo '<br>TOPO = ' . end($this->pilha) . ' TOKEN = ' . $token->token . '<br>';
             if ($this->isTerminal(end($this->pilha))) {
+
                 if (end($this->pilha) == $token->token) {
+                
                     array_pop($this->pilha);
+                    
+                    echo $token->token . " => ";
                     $control++;
                     $token = $this->nextToken($control);
+                    echo $token->token . "\n";
+                    
+
                 } else {
-                    var_dump($this->pilha);
                     return false;
                 }
             } else {
+
                 $producao = $this->m[end($this->pilha)][$token->token];
                 $this->empilhar($producao);
+                print_r($this->pilha);
             }
         } while (end($this->pilha) != '$');
         return true;
@@ -114,14 +129,26 @@ class AnalisadorSintaticoPreditivo
 
     public function empilhar($producao)
     {
-        array_pop($this->pilha);
+
+        if (end($this->pilha) != '$') 
+            array_pop($this->pilha);
+
         $this->pilha = array_merge($this->pilha, array_reverse($producao));
+
     }
 
     public function nextToken($control)
     {
-        if (count($this->tokens) <= $control)
-            return;
-        return $this->tokens[$control];
+        if (count($this->tokens) <= $control) {
+            return end($this->tokens);
+        }
+
+        
+        $token = $this->tokens[$control];
+
+        if (!$token) {
+        }
+
+        return $token;
     }
 }

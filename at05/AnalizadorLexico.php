@@ -37,13 +37,14 @@ class AnalizadorLexico
 
     public function indentifyrToken($entrada)
     {
-        $entrada = $entrada . ' ';
+        $entrada = str_replace(array("\r", "\n", "\t"), '', $entrada) . ' ';
         $entrada = str_split($entrada);
         $qAtual = $this->initial->id;
         $position = 0;
 
-        foreach ($entrada as $e) {
-            if ($e == ' ') {
+        
+        foreach ($entrada as $index => $e) {
+            if (in_array($e, [' ', '\n', '\r', '\t'])) {
                 $position++;
                 $qAtual = $this->initial->id;
                 continue;
@@ -64,7 +65,7 @@ class AnalizadorLexico
             }
             $position++;
         }
-
+        
         return $this->tokens;
     }
 
@@ -101,7 +102,6 @@ class AnalizadorLexico
 
     function matrizForTransitionRegex($t)
     {
-
         foreach ($this->alfabet as $char) {
             if ($this->testRegex($t['read'], $char)) {
                 $this->trasitions[$t['from']][$char] = $t['to'];
